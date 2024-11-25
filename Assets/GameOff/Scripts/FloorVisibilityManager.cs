@@ -47,7 +47,7 @@ public class FloorVisibilityManager : MonoBehaviour
                 if (renderer.material.HasProperty("_Color")) // Ensure material supports transparency
                 {
                     Color color = renderer.material.color;
-                    float targetAlpha = isVisible ? 1f : 0f;
+                    float targetAlpha = isVisible ? 0.3f : 0f;
                     float newAlpha = Mathf.MoveTowards(color.a, targetAlpha, fadeSpeed * Time.deltaTime);
                     renderer.material.color = new Color(color.r, color.g, color.b, newAlpha);
 

@@ -5,14 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
-  - floor1
-  - floor2
-  - floor3
+  - Sotano
+  - Looby
+  - Piso 1
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
   - floor1layer
