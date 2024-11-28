@@ -13,15 +13,12 @@ MonoBehaviour:
   m_Name: LuisInicial
   m_EditorClassIdentifier: 
   npcName: Luis
-  playerName: Camilo
   dialogueLines:
   - Me llamo Luis, en que le puedo ayudar detective?
   choices:
   - questionText: Que escucho anoche?
-    npcResponse: 
     nextDialogue: {fileID: 11400000, guid: 174601c2a50dd6b41869998e315c2b91, type: 2}
     requiredClue: 
   - questionText: Que sabe del conserge?
-    npcResponse: 
     nextDialogue: {fileID: 11400000, guid: 970003f0ef27ede4cb8bb23cc645f70f, type: 2}
     requiredClue: 

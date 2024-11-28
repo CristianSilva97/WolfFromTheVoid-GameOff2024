@@ -8,9 +8,7 @@ public class ConversationManager : MonoBehaviour
 
     [Header("UI References")]
     public GameObject conversationUI;
-    public GameObject conversationUI2;// Main UI Canvas
-    public TextMeshProUGUI npcNameText;
-    public TextMeshProUGUI playerNameText;// Text for NPC name
+    public TextMeshProUGUI npcNameText;// Text for NPC name
     public TextMeshProUGUI dialogueText; // Text for NPC's answer
     public Transform choiceContainer; // Parent for question buttons
     public GameObject choicePrefab; // Prefab for each question button
@@ -39,7 +37,7 @@ public class ConversationManager : MonoBehaviour
         Time.timeScale = 0;
 
         conversationUI.SetActive(true);
-        conversationUI2.SetActive(true);
+  
         DisplayDialogue(dialogueData);
     }
 
@@ -47,7 +45,6 @@ public class ConversationManager : MonoBehaviour
     {
         isConversationActive = false;
         conversationUI.SetActive(false);
-        conversationUI2.SetActive(false);
         // Re-enable player movement
         Time.timeScale = 1;
 
@@ -66,7 +63,6 @@ public class ConversationManager : MonoBehaviour
             EndConversation();
             return;
         }
-        playerNameText.text = dialogueData.playerName;
         npcNameText.text = dialogueData.npcName; // Set NPC's name
         dialogueText.text = dialogueData.dialogueLines[0]; // Clear previous response until a question is asked
 
@@ -83,7 +79,7 @@ public class ConversationManager : MonoBehaviour
 
             // Check if the required clue is collected
             if (!string.IsNullOrEmpty(choice.requiredClue) &&
-                !collectedClues.Contains(choice.requiredClue))
+                !ClueManager.Instance.HasClue(choice.requiredClue))
             {
                 Debug.Log($"Skipping choice: {choice.questionText}, missing clue: {choice.requiredClue}");
                 continue;
@@ -95,8 +91,6 @@ public class ConversationManager : MonoBehaviour
             // Add functionality to the button
             questionButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
             {
-                Debug.Log($"Button clicked, NPC Response: {choice.npcResponse}");
-                dialogueText.text = choice.npcResponse; // Display NPC's response
 
                 if (choice.nextDialogue != null)
                 {

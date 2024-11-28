@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: LuisMain
   m_EditorClassIdentifier: 
   npcName: Luis
-  playerName: Camilo
   dialogueLines:
   - En que le puedo ayudar?
   choices:
   - questionText: Que sabe del conserge?
-    npcResponse: 
     nextDialogue: {fileID: 11400000, guid: 970003f0ef27ede4cb8bb23cc645f70f, type: 2}
     requiredClue: 
-  - questionText: Que sabe del conserge?
-    npcResponse: 
-    nextDialogue: {fileID: 11400000, guid: 970003f0ef27ede4cb8bb23cc645f70f, type: 2}
+  - questionText: Que escucho anoche?
+    nextDialogue: {fileID: 11400000, guid: 174601c2a50dd6b41869998e315c2b91, type: 2}
     requiredClue: 
+  - questionText: y esta llave?
+    nextDialogue: {fileID: 11400000, guid: 174601c2a50dd6b41869998e315c2b91, type: 2}
+    requiredClue: Strange Key
