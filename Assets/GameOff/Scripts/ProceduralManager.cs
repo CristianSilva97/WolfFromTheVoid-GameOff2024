@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProceduralManager : MonoBehaviour
 {
-    [System.Serializable]
+/*    [System.Serializable]
     public class Clue
     {
         public GameObject cluePrefab; // Prefab of the clue to instantiate
@@ -46,5 +46,5 @@ public class ProceduralManager : MonoBehaviour
             GameObject spawnedClue = Instantiate(clue.cluePrefab, selectedLocation.position, Quaternion.identity);
             Debug.Log($"Clue '{clue.cluePrefab.name}' placed at location: {selectedLocation.name}");
         }
-    }
+    }*/
 }

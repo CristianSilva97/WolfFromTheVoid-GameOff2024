@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NPCProximity : MonoBehaviour
 {
-    public Canvas interactCanvas; // Assign a World Space Canvas for interaction hint
+/*    public Canvas interactCanvas; // Assign a World Space Canvas for interaction hint
     public DialogueData npcDialogue; // Assign the starting dialogue for this NPC
 
     private bool playerInRange = false;
@@ -51,5 +51,5 @@ public class NPCProximity : MonoBehaviour
         {
             Debug.LogWarning("No dialogue assigned to this NPC!");
         }
-    }
+    }*/
 }

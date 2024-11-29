@@ -3,7 +3,7 @@ using TMPro;
 
 public class ConversationManager : MonoBehaviour
 {
-    public static ConversationManager Instance;
+/*    public static ConversationManager Instance;
 
     [Header("UI References")]
     public GameObject conversationUI; // Main UI Canvas
@@ -76,5 +76,5 @@ public class ConversationManager : MonoBehaviour
                 });
             }
         }
-    }
+    }*/
 }
