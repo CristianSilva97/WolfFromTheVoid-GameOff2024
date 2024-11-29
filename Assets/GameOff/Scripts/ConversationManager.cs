@@ -1,16 +1,21 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class ConversationManager : MonoBehaviour
 {
 /*    public static ConversationManager Instance;
 
     [Header("UI References")]
-    public GameObject conversationUI; // Main UI Canvas
-    public TextMeshProUGUI dialogueText; // Text field for dialogue
-    public TextMeshProUGUI npcNameText; // Text field for NPC name
-    public Transform choiceContainer; // Parent for choice buttons
-    public GameObject choicePrefab; // Prefab for each choice button
+    public GameObject conversationUI;
+    public TextMeshProUGUI npcNameText;// Text for NPC name
+    public TextMeshProUGUI dialogueText; // Text for NPC's answer
+    public Transform choiceContainer; // Parent for question buttons
+    public GameObject choicePrefab; // Prefab for each question button
+    public GameObject endConversationButton; // Button to end the conversation
+
+    [Header("Game State")]
+    public List<string> collectedClues = new List<string>(); // Tracks collected clues
 
     private bool isConversationActive = false;
     private DialogueData currentDialogue;
@@ -28,7 +33,11 @@ public class ConversationManager : MonoBehaviour
         isConversationActive = true;
         currentDialogue = dialogueData;
 
+        // Disable player movement by stopping time
+        Time.timeScale = 0;
+
         conversationUI.SetActive(true);
+  
         DisplayDialogue(dialogueData);
     }
 
@@ -36,6 +45,8 @@ public class ConversationManager : MonoBehaviour
     {
         isConversationActive = false;
         conversationUI.SetActive(false);
+        // Re-enable player movement
+        Time.timeScale = 1;
 
         // Clear choices
         foreach (Transform child in choiceContainer)
@@ -52,29 +63,53 @@ public class ConversationManager : MonoBehaviour
             EndConversation();
             return;
         }
+        npcNameText.text = dialogueData.npcName; // Set NPC's name
+        dialogueText.text = dialogueData.dialogueLines[0]; // Clear previous response until a question is asked
 
-        npcNameText.text = dialogueData.npcName; // Show NPC name
-        dialogueText.text = dialogueData.dialogueLines[0]; // Display the first line
-
-        // Display choices if available
-        if (dialogueData.choices != null && dialogueData.choices.Length > 0)
+        // Clear old questions
+        foreach (Transform child in choiceContainer)
         {
-            foreach (var choice in dialogueData.choices)
+            Destroy(child.gameObject);
+        }
+
+        // Generate question buttons
+        foreach (var choice in dialogueData.choices)
+        {
+            Debug.Log($"Checking choice: {choice.questionText}");
+
+            // Check if the required clue is collected
+            if (!string.IsNullOrEmpty(choice.requiredClue) &&
+                !ClueManager.Instance.HasClue(choice.requiredClue))
             {
-                GameObject choiceButton = Instantiate(choicePrefab, choiceContainer);
-                choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
-                choiceButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
-                {
-                    if (choice.nextDialogue != null)
-                    {
-                        DisplayDialogue(choice.nextDialogue); // Show the next dialogue
-                    }
-                    else
-                    {
-                        EndConversation(); // End if there's no next dialogue
-                    }
-                });
+                Debug.Log($"Skipping choice: {choice.questionText}, missing clue: {choice.requiredClue}");
+                continue;
             }
+
+            GameObject questionButton = Instantiate(choicePrefab, choiceContainer);
+            questionButton.GetComponentInChildren<TextMeshProUGUI>().text = choice.questionText;
+
+            // Add functionality to the button
+            questionButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
+            {
+
+                if (choice.nextDialogue != null)
+                {
+                    DisplayDialogue(choice.nextDialogue); // Load next dialogue
+                }
+            });
+        }
+
+        // Ensure "End Conversation" button is visible
+        endConversationButton.SetActive(true);
+    }
+
+
+    public void AddClue(string clue)
+    {
+        if (!collectedClues.Contains(clue))
+        {
+            collectedClues.Add(clue);
+            Debug.Log($"Clue added: {clue}");
         }
     }*/
 }
