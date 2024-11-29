@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1635e8e935cdad4f83dc661ab2c7afe, type: 3}
+  m_Name: LuisQuestion1
+  m_EditorClassIdentifier: 
+  npcName: Luis
+  playerName: Camilo
+  dialogueLines:
+  - No escuche nada , estaba dormido
+  choices:
+  - questionText: Que sabe del conserge?
+    npcResponse: 
+    nextDialogue: {fileID: 11400000, guid: 970003f0ef27ede4cb8bb23cc645f70f, type: 2}
+    requiredClue: 
+  - questionText: Quiero preguntarte acerca de ...
+    npcResponse: 
+    nextDialogue: {fileID: 11400000, guid: 006c4e5ab99589f4393969d25b17b851, type: 2}
+    requiredClue: 
