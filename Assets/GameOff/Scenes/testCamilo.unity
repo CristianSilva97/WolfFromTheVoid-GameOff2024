@@ -78493,12 +78493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8209bc6a48c5aa46b72698e8d821666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clues:
-  - cluePrefab: {fileID: 1970591452850783335, guid: ec856a1d8da304b4fa5aef028f333583, type: 3}
-    validLocations:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
 --- !u!114 &1987574637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78528,15 +78522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3df2122c5d4514dbd54d924c0af6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversationUI: {fileID: 797587632}
-  conversationUI2: {fileID: 811936117}
-  npcNameText: {fileID: 1651302113}
-  playerNameText: {fileID: 977116034}
-  dialogueText: {fileID: 599206299}
-  choiceContainer: {fileID: 1492615656}
-  choicePrefab: {fileID: 7273286927365913791, guid: 488a542db582fa34a8e17e839b065dff, type: 3}
-  endConversationButton: {fileID: 380320845}
-  collectedClues: []
 --- !u!114 &1987574639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79229,8 +79214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbff2798fc9621a4aadaaca1455818c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactCanvas: {fileID: 1183081777}
-  npcDialogue: {fileID: 11400000, guid: df3e9efb3a251ff4aaf89d7ed93b0c20, type: 2}
 --- !u!54 &2062515308
 Rigidbody:
   m_ObjectHideFlags: 0

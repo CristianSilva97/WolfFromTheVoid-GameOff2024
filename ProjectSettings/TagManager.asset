@@ -9,11 +9,14 @@ TagManager:
   - Looby
   - Piso 1
   - Terraza
+  - Piso 2
+  - Piso 3
+  - Piso 4
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Wall
+  - Transparent
   - Water
   - UI
   - floor1layer
