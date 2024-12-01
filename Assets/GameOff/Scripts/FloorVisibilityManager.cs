@@ -1,25 +1,46 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class FloorVisibilityManager : MonoBehaviour
 {
-    public string[] floorTags; // Tags for floors (e.g., "Floor1", "Floor2", etc.)
-    public float[] floorHeights; // Y-height for each floor (match the vertical position of each floor)
-    public Transform player; // Player's transform
-    public float fadeSpeed = 2f; // Speed for fading in/out
-    private int currentFloorIndex = -1; // Tracks the current floor index
+    public string[] floorTags; // Tags para identificar los pisos
+    public float[] floorHeights; // Alturas de los pisos
+    public Transform player; // Transform del jugador
+    public float fadeSpeed = 2f; // Velocidad de desvanecimiento
+    private int currentFloorIndex = -1; // Piso actual del jugador
+
+    private Dictionary<string, GameObject[]> floorsByTag = new Dictionary<string, GameObject[]>(); // Referencias a pisos
+
+    void Start()
+    {
+        // Cargar referencias a los pisos por etiqueta
+        foreach (string tag in floorTags)
+        {
+            GameObject[] floors = GameObject.FindGameObjectsWithTag(tag);
+            if (floors.Length > 0)
+            {
+                floorsByTag[tag] = floors;
+                Debug.Log($"Encontrados {floors.Length} objetos con la etiqueta '{tag}'.");
+            }
+            else
+            {
+                Debug.LogWarning($"No se encontraron objetos con la etiqueta '{tag}'.");
+            }
+        }
+    }
 
     void Update()
     {
         float playerHeight = player.position.y;
+        int newFloorIndex = GetCurrentFloorIndex(playerHeight);
 
-        // Determine the current floor the player is on
-        currentFloorIndex = GetCurrentFloorIndex(playerHeight);
-
-        // Update visibility for each floor
-        for (int i = 0; i < floorTags.Length; i++)
+        // Si cambia el piso actual, actualizamos la visibilidad
+        if (newFloorIndex != currentFloorIndex)
         {
-            bool shouldBeVisible = (i <= currentFloorIndex); // Lower or current floors are always visible
-            ToggleObjectsByTag(floorTags[i], shouldBeVisible);
+            currentFloorIndex = newFloorIndex;
+            UpdateFloorVisibility();
+
+            Debug.Log($"Piso actual: {floorTags[currentFloorIndex]}");
         }
     }
 
@@ -32,32 +53,33 @@ public class FloorVisibilityManager : MonoBehaviour
                 return i;
             }
         }
-        return floorHeights.Length - 1; // Default to the highest floor
+        return floorHeights.Length - 1; // Si el jugador está por encima de todos los pisos
     }
 
-    private void ToggleObjectsByTag(string tag, bool isVisible)
+    private void UpdateFloorVisibility()
     {
-        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
-
-        foreach (GameObject obj in objects)
+        for (int i = 0; i < floorTags.Length; i++)
         {
-            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-            foreach (Renderer renderer in renderers)
-            {
-                if (renderer.material.HasProperty("_Color")) // Ensure material supports transparency
-                {
-                    Color color = renderer.material.color;
-                    float targetAlpha = isVisible ? 0.3f : 0f;
-                    float newAlpha = Mathf.MoveTowards(color.a, targetAlpha, fadeSpeed * Time.deltaTime);
-                    renderer.material.color = new Color(color.r, color.g, color.b, newAlpha);
+            bool shouldBeActive = (i <= currentFloorIndex);
+            ToggleFloorByTag(floorTags[i], shouldBeActive);
+        }
+    }
 
-                    // Disable renderer only when fully invisible
-                    renderer.enabled = newAlpha > 0;
-                }
-                else
-                {
-                    Debug.LogError($"{renderer.gameObject.name} material does not support transparency.");
-                }
+    private void ToggleFloorByTag(string tag, bool shouldBeActive)
+    {
+        if (!floorsByTag.ContainsKey(tag))
+        {
+            Debug.LogWarning($"Etiqueta '{tag}' no tiene pisos asociados.");
+            return;
+        }
+
+        GameObject[] floors = floorsByTag[tag];
+        foreach (GameObject floor in floors)
+        {
+            if (floor.activeSelf != shouldBeActive)
+            {
+                floor.SetActive(shouldBeActive);
+                Debug.Log($"Piso '{tag}' -> {(shouldBeActive ? "Activado" : "Desactivado")}");
             }
         }
     }

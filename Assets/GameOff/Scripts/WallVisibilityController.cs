@@ -1,12 +1,10 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class WallVisibilityController : MonoBehaviour
 {
-    public Transform player; // El jugador o la cámara principal
-    public LayerMask wallLayer; // La capa asignada a las paredes
+    public Transform player; // Transform del jugador o cámara
+    public LayerMask wallLayer; // Capa de las paredes
     public Material transparentMaterial; // Material transparente
-    private Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>();
 
     void Update()
     {
@@ -14,34 +12,25 @@ public class WallVisibilityController : MonoBehaviour
         Vector3 direction = player.position - Camera.main.transform.position;
         float distance = Vector3.Distance(player.position, Camera.main.transform.position);
 
-        // Lanza rayos para detectar paredes
+        // Detectar paredes obstruidas por raycast
         hits = Physics.RaycastAll(Camera.main.transform.position, direction, distance, wallLayer);
 
-        // Ocultar paredes obstruidas
         foreach (var hit in hits)
         {
             Renderer wallRenderer = hit.collider.GetComponent<Renderer>();
-            if (wallRenderer != null && !originalMaterials.ContainsKey(wallRenderer))
+            if (wallRenderer != null)
             {
-                originalMaterials[wallRenderer] = wallRenderer.material;
-                wallRenderer.material = transparentMaterial;
+                MaterialManager.Instance.SetTransparent(wallRenderer, transparentMaterial);
             }
         }
 
-        // Restaurar paredes que ya no están obstruidas
-        List<Renderer> toRestore = new List<Renderer>();
-        foreach (var pair in originalMaterials)
+        // Restaurar materiales de paredes que ya no están obstruidas
+        foreach (var renderer in MaterialManager.Instance.GetRenderers())
         {
-            if (!System.Array.Exists(hits, h => h.collider.GetComponent<Renderer>() == pair.Key))
+            if (!System.Array.Exists(hits, h => h.collider.GetComponent<Renderer>() == renderer))
             {
-                pair.Key.material = pair.Value; // Restaurar el material original
-                toRestore.Add(pair.Key); // Marcar para limpiar
+                MaterialManager.Instance.RestoreMaterial(renderer);
             }
-        }
-
-        foreach (var renderer in toRestore)
-        {
-            originalMaterials.Remove(renderer);
         }
     }
 }
